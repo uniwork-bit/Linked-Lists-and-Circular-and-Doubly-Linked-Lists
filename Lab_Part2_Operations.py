@@ -6,36 +6,62 @@ class Node:
         self.next = None
 
 def findLowestValue(head):
-    """
-    ฟังก์ชันค้นหาค่าที่น้อยที่สุดในลิสต์
-    """
-    # HINT 1: กำหนดค่าเริ่มต้นให้ minValue = head.data แล้วเริ่มวนลูปเช็คจากโหนดที่สอง (head.next)[cite: 1]
-    # หากเจอค่าที่น้อยกว่าให้บันทึกทับตัวแปรเดิม[cite: 1]
-    
-    # TODO: เขียนโค้ดหาค่าที่น้อยที่สุดและ return ค่านั้นออกมา
-    pass
+    minValue = head.data
+    currentNode = head.next
+
+    while currentNode:
+        if currentNode.data < minValue:
+            minValue = currentNode.data
+        currentNode = currentNode.next
+    return minValue
+
 
 def insertNodeAtPosition(head, newNode, position):
-    """
-    ฟังก์ชันแทรกโหนดใหม่ลงในตำแหน่งที่กำหนด
-    """
-    # HINT 2: ใช้ลูป for เลื่อน currentNode ไปหยุดอยู่ที่โหนด "ก่อนหน้า" ตำแหน่งที่ต้องการแทรก (position - 2)[cite: 1]
-    # HINT 3: ลำดับ Pointer สำคัญมาก! ต้องให้ newNode.next ชี้ไปยังโหนดถัดไปก่อน 
-    # แล้วค่อยเอา currentNode.next มาชี้ที่โหนดใหม่ หากสลับลำดับกันสายลิสต์จะขาดทันที[cite: 1]
-    
-    # TODO: เขียนโค้ดเพื่อแทรกโหนด
-    pass
+    if position == 1:
+        newNode.next = head
+        return newNode
+
+    currentNode = head
+    for _ in range(position - 2):
+        if currentNode is None:
+            break
+        currentNode = currentNode.next
+
+    newNode.next = currentNode.next
+    currentNode.next = newNode
+    return head
+
 
 def deleteSpecificNode(head, nodeToDelete):
-    """
-    ฟังก์ชันลบโหนดที่กำหนดออกจากลิสต์
-    """
-    # HINT 4: การลบโหนดคล้ายกับการแทรก คือหาโหนดที่อยู่ก่อนหน้าตัวที่ต้องการลบ 
-    # แล้วสั่งให้ pointer กระโดดข้ามโดยใช้ currentNode.next = currentNode.next.next[cite: 1]
-    
-    # TODO: เขียนโค้ดลบโหนด และ return head ของลิสต์ที่อัปเดตแล้ว
-    pass
+    if head is None or nodeToDelete is None:
+        return head
+
+    if head == nodeToDelete:
+        return head.next
+
+    previousNode = None
+    currentNode = head
+
+    while currentNode is not None and currentNode != nodeToDelete:
+        previousNode = currentNode
+        currentNode = currentNode.next
+
+    if currentNode is None:
+        return head
+
+    previousNode.next = currentNode.next
+    return head
+
 
 print("--- ผลลัพธ์ส่วนที่ 2: Operations ---")
-# TODO: สร้าง Singly Linked List เตรียมไว้สำหรับทดสอบ
-# TODO: ทดสอบเรียกใช้ findLowestValue, insertNodeAtPosition และ deleteSpecificNode
+
+node1 = Node(9)
+node2 = Node(1)
+node3 = Node(7)
+node4 = Node(8)
+node5 = Node(13)
+
+node1.next = node2
+node2.next = node3
+node3.next = node4
+
